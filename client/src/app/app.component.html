@@ -1,0 +1,59 @@
+<div class="fxcontainer" fxLayout="row wrap"[class.mobile]="mobileQuery.matches" >
+    <mat-toolbar color="primary" class="toolbar" *ngIf="auth.loggedIn">
+      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <h1 class="name" routerLink="/home">DOCAPP</h1>
+      <span class="spacer"></span>
+      <button id="menu" class="col" mat-icon-button [matMenuTriggerFor]="menu">{{auth.currentUser.username | uppercase |slice:0:1 }}</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>{{auth.currentUser.username}}</button>
+            <button mat-menu-item>{{auth.currentUser._id }}</button>
+            <button mat-menu-item (click)="onLogoutClick()" >Logut<mat-icon>exit_to_app</mat-icon></button>
+        </mat-menu>
+    </mat-toolbar>
+  
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+
+          <mat-nav-list *ngIf= "auth.isSadmin && auth.loggedIn">
+              <a mat-list-item  routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/lab" >Laboratory</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/hospital">Hospital</a>
+          </mat-nav-list>
+          <mat-nav-list *ngIf= "auth.isPadmin && auth.loggedIn">
+              <a mat-list-item  routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
+
+              <a mat-list-item  routerLinkActive="active" routerLink="/myprofile">MyProfile</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/adddrug" >Add Drug</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/viewdrug">View Drug</a>
+             
+          </mat-nav-list>
+          <mat-nav-list *ngIf= "auth.isPatient && auth.loggedIn">
+              <a mat-list-item  routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/diagnosis">Diagnosis</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/profile" >ProfileForm</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/myprofile">MyProfile</a>
+          </mat-nav-list>
+          <mat-nav-list *ngIf= "auth.isDoctor && auth.loggedIn">
+              <a mat-list-item  routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/diagnosis">Diagnosis</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/myprofile">MyProfile</a>
+              <a mat-list-item  routerLinkActive="active" routerLink="/history" >History</a>
+
+          </mat-nav-list>
+          <mat-nav-list *ngIf= "auth.isLadmin && auth.loggedIn">
+            <a mat-list-item  routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
+           
+           
+            <a mat-list-item  routerLinkActive="active" routerLink="/myprofile">MyProfile</a>
+            <a mat-list-item  routerLinkActive="active" routerLink="/addtest">Addtest</a>
+            <a mat-list-item  routerLinkActive="active" routerLink="/report">Report</a>
+           
+        </mat-nav-list>
+
+          
+        </mat-sidenav>
+        <mat-sidenav-content>
+          <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
